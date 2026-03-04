@@ -124,17 +124,22 @@ class SortIT {
 
     async predict() {
         if (this.isModelLoaded) {
-            this.predictions = await this.model.detect(this.video);
+            // High confidence threshold for waste to avoid artifacts
+            this.predictions = (await this.model.detect(this.video))
+                .filter(p => p.score > 0.55);
         }
     }
 
     startRenderLoop() {
+        let frameCount = 0;
         const render = async () => {
-            // Run inference every other frame to balance performance
-            if (Date.now() % 2 === 0) {
+            // Run inference every 3rd frame (approx 20fps inference, 60fps render)
+            // for maximum smoothness on mobile
+            if (frameCount % 3 === 0) {
                 await this.predict();
             }
             this.drawFrame();
+            frameCount++;
             requestAnimationFrame(render);
         };
         requestAnimationFrame(render);

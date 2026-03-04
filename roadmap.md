@@ -37,12 +37,12 @@ This document tracks the completion of each phase of the SortIT project. Once a 
 - **Status:** [COMPLETED]
 
 ## Phase 6: Optimization & Polish
-- [ ] Performance profiling (ensuring 30 FPS on average hardware).
-- [ ] Model size optimization.
-- [ ] Final testing across different browsers and lighting conditions.
-- **Status:** [PENDING]
+- [x] Performance profiling (ensuring 30 FPS on average hardware).
+- [x] Model size optimization.
+- [x] Final testing across different browsers and lighting conditions.
+- **Status:** [COMPLETED]
 
 ---
 
-**Current Overall Progress:** 90%
-**Current Phase:** Phase 6
+**Current Overall Progress:** 100%
+**Current Phase:** COMPLETED
