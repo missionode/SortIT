@@ -27,34 +27,49 @@ class SortIT {
     }
 
     async init() {
+        const loaderText = this.loader.querySelector('p');
         console.log('SortIT: Initializing...');
         
-        // 1. Register Service Worker for PWA
+        // 1. Check if libraries loaded
+        if (typeof tf === 'undefined' || typeof cocoSsd === 'undefined') {
+            loaderText.innerText = 'Error: ML libraries failed to load. Check your connection.';
+            loaderText.style.color = '#d32f2f';
+            return;
+        }
+
+        // 2. Register Service Worker for PWA
         this.registerServiceWorker();
         
-        // 2. Setup Camera
+        // 3. Setup Camera
         try {
+            loaderText.innerText = 'Accessing camera...';
             await this.setupCamera();
             this.resizeCanvas();
             window.addEventListener('resize', () => this.resizeCanvas());
             
-            // 3. Load ML Model
+            // 4. Load ML Model
+            loaderText.innerText = 'Loading AI model (~5MB)...';
             await this.loadModel();
             
-            // 4. Start Render Loop
+            // 5. Start Render Loop
             this.startRenderLoop();
             
-            // 5. Hide Loader & Show UI
-            this.loader.classList.add('hidden');
-            this.ui.classList.add('visible');
+            // 6. Hide Loader & Show UI
+            this.loader.style.opacity = '0';
+            setTimeout(() => {
+                this.loader.classList.add('hidden');
+                this.ui.classList.add('visible');
+            }, 800);
             
             console.log('SortIT: System Ready.');
         } catch (error) {
             console.error('SortIT: Initialization failed', error);
-            alert('Camera access and model loading are required for SortIT.');
+            loaderText.innerHTML = `Error: ${error.message}<br><small>Make sure you are using HTTPS or localhost.</small>`;
+            loaderText.style.color = '#d32f2f';
+            this.loader.querySelector('.spinner').style.display = 'none';
         }
 
-        // 6. Setup UI Listeners
+        // 7. Setup UI Listeners
         this.setupEventListeners();
     }
 
