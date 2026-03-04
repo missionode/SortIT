@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SortIT | Autonomous Waste Sorting</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+    <div id="app">
+        <!-- Main Camera View -->
+        <canvas id="mainCanvas"></canvas>
+        
+        <!-- Hidden Video Source -->
+        <video id="videoSource" autoplay playsinline muted></video>
+
+        <!-- Overlay UI -->
+        <div id="uiOverlay" class="hidden">
+            <div class="status-bar">
+                <span id="modelStatus" class="status-indicator loading">Initializing...</span>
+                <span id="ghostingMode" class="badge">Ghosting: ON</span>
+            </div>
+            
+            <div class="controls">
+                <button id="toggleGhosting" class="icon-btn" title="Toggle Ghosting">
+                    <span class="icon">✨</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Initial Loader -->
+        <div id="initialLoader">
+            <div class="loader-content">
+                <h1>SortIT</h1>
+                <p>Preparing vision system...</p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+    <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+:root {
+    --bg-color: #f8f9fa;
+    --primary-color: #2e7d32;
+    --accent-color: #4caf50;
+    --text-color: #212121;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mainCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#videoSource {
+    display: none;
+}
+
+/* UI Overlay */
+#uiOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    z-index: 10;
+    transition: opacity 0.5s ease;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-indicator.loading {
+    color: #666;
+    position: relative;
+    padding-left: 30px;
+}
+
+.status-indicator.loading::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: #ffa000;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.status-indicator.active {
+    color: var(--primary-color);
+    padding-left: 30px;
+}
+
+.status-indicator.active::before {
+    content: '●';
+    position: absolute;
+    left: 12px;
+    color: var(--primary-color);
+}
+
+@keyframes pulse {
+    0% { transform: translateY(-50%) scale(0.8); opacity: 0.5; }
+    50% { transform: translateY(-50%) scale(1.2); opacity: 1; }
+    100% { transform: translateY(-50%) scale(0.8); opacity: 0.5; }
+}
+
+/* Smoother UI reveal */
+#uiOverlay {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-out;
+}
+
+#uiOverlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    pointer-events: auto;
+}
+
+.icon-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.icon-btn:active {
+    transform: scale(0.9);
+}
+
+/* Initial Loader */
+#initialLoader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-content h1 {
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none !important;
+    opacity: 0;
+}
